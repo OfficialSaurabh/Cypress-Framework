@@ -1,4 +1,24 @@
+import * as assert from "assert";
 // const { describe } = require("mocha");
+/*
+1) implicit assetion
+  should
+  and
+  
+along with should we can use the follwing assertion
+eq
+contain
+include
+exist
+have.length
+have.value
+
+
+2) Explicit assertion
+  expect -BDD
+  asser - TDD
+
+*/
 
 describe("Assertions Test", () => {
   it("Implicit assertion", () => {
@@ -30,8 +50,30 @@ describe("Assertions Test", () => {
       .and("eq", "OrangeHRM")
       .and("contain", "HRM");
 
-    cy.get(".orangehrm-login-branding > img").should("be.visible")
-    .and("exist"); 
+    cy.get(".orangehrm-login-branding > img").should("be.visible").and("exist");
+  });
 
+  // Explicit assertion
+
+  it("Explicit assertion", () => {
+    // Should and
+    cy.visit(
+      "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"
+    );
+    cy.get("input[placeholder='Username']").type("Admin");
+    cy.get("input[placeholder='Password']").type("admin123");
+    cy.get("button[type='submit']").click();
+
+    let exptName = "ReSoPOakKZ kumbimath";
+    cy.get("p[class='oxd-userdropdown-name'] ").then(x => {
+      // BDD Assertions
+      let actName = x.text();
+      expect(actName).to.equal(exptName);
+      expect(actName).to.not.equal(exptName);
+
+      // TDD Assertions
+      assert.equal(actName, exptName);
+      assert.notEqual(actName, exptName);
+    });
   });
 });
